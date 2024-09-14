@@ -13,12 +13,19 @@ const Pokemon = () => {
     // Fetching data to get the pokemon 
 
     function fetchPokemon(pokemonName){
-    fetch("https://pokeapi.co/api/v2/pokemon/")
-    .then((pokemonData) => response.json())
-    .then(getPokemon(pokemonData) {
-        console.log(response);
-    })
-    .catch(console.error);
+        fetch("https://pokeapi.co/api/v2/pokemon/")
+        .then((pokemonData) => pokemonData.json())
+        .then((pokemonData) => {
+            getPokemon(pokemonData);
+            console.log(pokemonData);
+        })
+        .catch(console.error);
+    }
+
+    // Change the value of query with new input event
+    
+    function ChangeQuery(eventSearch){
+        setQuery(eventSearch.target.value);
     }
 
     // Handling search input and pass the query to the fetch
@@ -28,22 +35,36 @@ const Pokemon = () => {
             fetchPokemon(searchQuery);
         }
         else {
-            throw new Error('Pokemon not found');
+            console.error(':/ You searched for an empty name');
         }
-    } 
+    }
 
     // Handle the variables in HTML where user can type, send and retrieve back the data
 
-    return (
-        <div class="pokemon-search">
-            <input type="text" value={searchQuery} placeholder="Search Pokemon name..."/>
-            <Button onClick={searchPokemon}>Search</Button>
-        </div>
-        <div class="pokemon-card">
-            <h1> {pokemon.name} </h1>
-            <img src={pokemon.image}/>
-        </div>
-    );
+    if (pokemon) {
+        return (
+            <Container>
+                <div class="pokemon-search">
+                    <input type="text" value={searchQuery} placeholder="Search Pokemon name..."/>
+                    <Button onClick={searchPokemon}>Search</Button>
+                </div>
+                <div class="pokemon-card">
+                    <h1> {pokemon.name} </h1>
+                    <img src={pokemon.image}/>
+                </div>
+            </Container>
+        );
+    } else {
+        return (
+            <Container>
+                <div class="pokemon-search">
+                    <input type="text" value={searchQuery} placeholder="Search Pokemon name..."/>
+                    <Button onClick={searchPokemon}>Search</Button>
+                </div>
+                <p>No Pokemon found. Please search for a Pokemon.</p>;
+            </Container>
+        );
+    };
 };
 
 // export the Pokemon object to use in other React files

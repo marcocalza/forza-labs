@@ -11,7 +11,7 @@ function App() {
         <p>
           Starting Take Home project with React!
         </p>
-        <MantineProvider withNormalizeCSS>
+        <MantineProvider  withGlobalStyles withNormalizeCSS>
           <Pokemon></Pokemon>
         </MantineProvider>
       </header>
