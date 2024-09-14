@@ -4,16 +4,49 @@ import { Card, Image, Text, Title, Loader, Button, Center, Container, Grid } fro
 // Importing useState to get initial const data and to set a function to use to update the data from users
 // Looking to use axios for fetch requests, error handling " import axios from 'axios'; "
 
+// Creating 'object' Pokemon to pass for rendering
+
 const Pokemon = () => {
     const [pokemon, getPokemon] = useState(null);
     const [searchQuery, setQuery] = useState(''); 
 
+    // Fetching data to get the pokemon 
+
+    function fetchPokemon(pokemonName){
     fetch("https://pokeapi.co/api/v2/pokemon/")
-    .then((response) => response.json())
-    .then(getPokemon(response) {
+    .then((pokemonData) => response.json())
+    .then(getPokemon(pokemonData) {
         console.log(response);
     })
     .catch(console.error);
+    }
 
-}
+    // Handling search input and pass the query to the fetch
+
+    function searchPokemon(searchQuery){
+        if (searchQuery !== '') {
+            fetchPokemon(searchQuery);
+        }
+        else {
+            throw new Error('Pokemon not found');
+        }
+    } 
+
+    // Handle the variables in HTML where user can type, send and retrieve back the data
+
+    return (
+        <div class="pokemon-search">
+            <input type="text" value={searchQuery} placeholder="Search Pokemon name..."/>
+            <Button onClick={searchPokemon}>Search</Button>
+        </div>
+        <div class="pokemon-card">
+            <h1> {pokemon.name} </h1>
+            <img src={pokemon.image}/>
+        </div>
+    );
+};
+
+// export the Pokemon object to use in other React files
+
+export default Pokemon;
 
