@@ -50,7 +50,8 @@ const Pokemon = () => {
     };
 
     // Handle the variables in HTML where user can type, send and retrieve back the data
-    
+    // Watching for Mantine card style example on https://mantine.dev/core/card/
+
     return (
         <Container>
             <div className="pokemon-search">
@@ -58,12 +59,16 @@ const Pokemon = () => {
                 <Button  onClick={() => searchPokemon()}>Search</Button>
             </div>
             {pokemon ? (
-                <div className="pokemon-card">
-                    <h1 className="pokemon-name"> {pokemon.name} </h1>
-                    <Image className="pokemon-image" src={pokemon.sprites.front_default} alt={pokemon.name} />
-                    <p className="pokemon-weight"> Weight: {pokemon.weight}</p>
-                    <p className="pokemon-height"> Height: {pokemon.height}</p>
-                </div>
+                <Card >
+                    <Card.Section>
+                        <Title> {pokemon.name} </Title>
+                        <Text className="pokemon-weight"> Weight: {pokemon.weight} </Text>
+                        <Text className="pokemon-height"> Height: {pokemon.height} </Text>
+                    </Card.Section>
+                    <Card.Section>
+                        <Image className="pokemon-image" src={pokemon.sprites.front_default} alt={pokemon.name} />
+                    </Card.Section>
+                </Card>
             ) : (
                 <p>No Pokemon found. Please search for a Pokemon.</p>
             )}

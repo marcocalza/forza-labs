@@ -28,7 +28,9 @@
   color: #61dafb;
 }
 
-.pokemon-card {
+/* About to use already imported mantine CSS
+
+/* .pokemon-card {
   position: absolute;
   background-color: #282c34;
   margin-top:20px;
@@ -46,8 +48,4 @@
   width: 820px;
   height: 470px;
   box-shadow: 0 4px 8px rgba(255, 255, 255, 0.853);
-}
-
-.pokemon-image {
-  width: 300px;
-}
+} */ 
