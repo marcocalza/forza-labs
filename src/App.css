@@ -28,3 +28,26 @@
   color: #61dafb;
 }
 
+.pokemon-card {
+  position: absolute;
+  background-color: #282c34;
+  margin-top:20px;
+  display:grid;
+  width: 800px;
+  height: 450px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(95, 95, 95, 0.688);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.pokemon-card:hover {
+  width: 820px;
+  height: 470px;
+  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.853);
+}
+
+.pokemon-image {
+  width: 300px;
+}

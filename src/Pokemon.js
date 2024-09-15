@@ -45,7 +45,7 @@ const Pokemon = () => {
         .catch((error) => {
             console.error('No pokemon found.');
             getPokemon(null);
-            setsearchFlag(true);
+            setsearchFlag(false); // Does not need to be true 
         });
     };
 
@@ -59,22 +59,17 @@ const Pokemon = () => {
             </div>
             {pokemon ? (
                 <div className="pokemon-card">
-                    <h1> {pokemon.name} </h1>
-                    <Image src={pokemon.image}/>
-                    <p> Weight: {pokemon.weight}</p>
-                    <p> Height: {pokemon.height}</p>
+                    <h1 className="pokemon-name"> {pokemon.name} </h1>
+                    <Image className="pokemon-image" src={pokemon.sprites.front_default} alt={pokemon.name} />
+                    <p className="pokemon-weight"> Weight: {pokemon.weight}</p>
+                    <p className="pokemon-height"> Height: {pokemon.height}</p>
                 </div>
             ) : (
-                {searchFlag ? (
                 <p>No Pokemon found. Please search for a Pokemon.</p>
-                ) : (
-                    <p>type a Pokemon to search</p>
-                )}
             )}
         </Container>
     );
 };
-    
 
 // export the Pokemon object to use in other React files
 
