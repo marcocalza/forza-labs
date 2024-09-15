@@ -19,7 +19,7 @@ const Pokemon = () => {
 
     // Handling search input and pass the query to the fetch
 
-    const searchPokemon = (searchQuery) => {
+    const searchPokemon = () => {
         if (searchQuery !== '') {
             fetchPokemon(searchQuery);
         }
@@ -31,7 +31,11 @@ const Pokemon = () => {
     // Fetching data to get the pokemon 
 
     const fetchPokemon = (pokemonName) => {
-        fetch('https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}')
+
+        // Clean name from uppercase or accents o weird characters
+        const pokemonNameCleaned = pokemonName.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        
+        fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonNameCleaned}`)
         .then((pokemonData) => pokemonData.json())
         .then((pokemonData) => {
             getPokemon(pokemonData);
@@ -51,37 +55,26 @@ const Pokemon = () => {
         <Container>
             <div className="pokemon-search">
                 <TextInput value={searchQuery} onChange={ChangeQuery} placeholder="Search Pokemon name..."/>
-                <Button onClick={searchPokemon}>Search</Button>
+                <Button  onClick={() => searchPokemon()}>Search</Button>
             </div>
+            {pokemon ? (
+                <div className="pokemon-card">
+                    <h1> {pokemon.name} </h1>
+                    <Image src={pokemon.image}/>
+                    <p> Weight: {pokemon.weight}</p>
+                    <p> Height: {pokemon.height}</p>
+                </div>
+            ) : (
+                {searchFlag ? (
+                <p>No Pokemon found. Please search for a Pokemon.</p>
+                ) : (
+                    <p>type a Pokemon to search</p>
+                )}
+            )}
         </Container>
     );
-    if (pokemon) {
-        if (searchFlag) {
-            return (
-                <Container>
-                    <div className="pokemon-card">
-                            <h1> {pokemon.name} </h1>
-                        <Image src={pokemon.image}/>
-                        <p> Weight: {pokemon.weight}</p>
-                        <p> Height: {pokemon.height}</p>
-                    </div>
-                </Container>
-            );
-        } else {
-            return (
-                <Container>
-                    <p>No Pokemon found. Please search for a Pokemon.</p>
-                </Container>
-            );
-        };
-    } else {
-        return (
-            <Container>
-                <p>No Pokemon Found.</p>
-            </Container>
-        );
-    };
 };
+    
 
 // export the Pokemon object to use in other React files
 

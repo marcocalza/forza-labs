@@ -12,7 +12,7 @@ function App() {
           Starting Take Home project with React!
         </p>
         <MantineProvider  withGlobalStyles withNormalizeCSS>
-          <Pokemon></Pokemon>
+          <Pokemon />
         </MantineProvider>
       </header>
     </div>
