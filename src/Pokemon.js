@@ -59,14 +59,39 @@ const Pokemon = () => {
                 <Button  onClick={() => searchPokemon()}>Search</Button>
             </div>
             {pokemon ? (
-                <Card >
-                    <Card.Section>
-                        <Title> {pokemon.name} </Title>
+                <Card className="card">
+                    <Card.Section className="top">
+                        <Text>Type: <ul className="pokemon-types-list">
+                            {pokemon.types.map((typeInfo, index) => (
+                                <li className="pokemon-type" key={index}>{typeInfo.type.name}</li>
+                            ))}
+                        </ul> </Text>
+                    </Card.Section>
+                    <Card.Section className="middle-top">
+                        <Card.Section className="middle-top-left">
+                            <Title className="pokemon-name"> {pokemon.name} </Title>
+                        </Card.Section>
+                        <Card.Section className="middle-top-right">
+                            <Image className="pokemon-image" src={pokemon.sprites.front_default} alt={pokemon.name} />
+                        </Card.Section>
+                    </Card.Section>
+                    <Card.Section className="middle-bottom">
+                    <Text>Stats: <ul className="pokemon-stats-list">
+                            {pokemon.stats.map((statInfo, index) => (
+                                <li className="pokemon-stat" key={index}>
+                                    {statInfo.stat.name}: {statInfo.base_stat}
+                                </li>
+                            ))}
+                        </ul> </Text>
                         <Text className="pokemon-weight"> Weight: {pokemon.weight} </Text>
                         <Text className="pokemon-height"> Height: {pokemon.height} </Text>
                     </Card.Section>
-                    <Card.Section>
-                        <Image className="pokemon-image" src={pokemon.sprites.front_default} alt={pokemon.name} />
+                    <Card.Section className="bottom">
+                        <Text>Abilities: <ul className="pokemon-abilities-list">
+                            {pokemon.abilities.map((abilityInfo, index) => (
+                                <li className="pokemon-ability" key={index}>{abilityInfo.ability.name}</li>
+                            ))}
+                        </ul> </Text>
                     </Card.Section>
                 </Card>
             ) : (
