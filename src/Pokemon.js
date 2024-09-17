@@ -16,17 +16,17 @@ const Pokemon = () => {
     const [allPokemon, setAllPokemon] = useState([]);
 
     // Let the console get all the Pokemons data in "background" with useEffect
+    // Needs to be set as async to to be working in the order
 
-    const fetchAllPokemon = () => {
-        fetch(`https://pokeapi.co/api/v2/pokemon?limit=9999`) // Get pokemon id up to id=9999
-        .then((pokemonData) => pokemonData.json())
-        .then((pokemonData) => {
-            setAllPokemon(pokemonData);
+    const fetchAllPokemon = async () => {
+        try {
+            const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=9999'); // Get pokemon id up to id=9999
+            const pokemonData = await response.json();
+            setAllPokemon(pokemonData.results);
             console.log(pokemonData);
-        })
-        .catch((error) => {
+        } catch (error) {
             console.error('No Pokemons found');
-          });
+        }
     };
 
     useEffect(() => {
@@ -40,29 +40,33 @@ const Pokemon = () => {
     };
 
     // Handling search input and pass the query to the fetch
+    // Check is query is a pokemon name, if not see if is inside a pokemon name of all the PokeAPI data
 
-    const searchPokemon = () => {
+    const searchPokemon = async () => {
         if (searchQuery !== '') {
-            fetchPokemon(searchQuery);
-            const pokemonFound = fetchPokemon(searchQuery);
-            if (pokemonFound) {
-                setLastSearchedQuery(searchQuery);
-                } else if (allPokemon.filter(pokemon => pokemon.name.toLowerCase().includes(searchQuery))) {
-                    const matchedPokemon = allPokemon.filter(pokemon => 
-                        pokemon.name.toLowerCase().includes(searchQuery)
+            try {
+                const pokemonFound = await fetchPokemon(searchQuery.toLowerCase());
+                if (pokemonFound) {
+                    setLastSearchedQuery(searchQuery);
+                } else { 
+                    const matchedPokemons = allPokemon.filter(pokemon => 
+                        pokemon.name.toLowerCase().includes(searchQuery.toLowerCase())
                     ); 
-                    if (matchedPokemon) {
-                        fetchPokemon(matchedPokemon.name);
+                    if (matchedPokemons.length > 0) {
+                        await fetchPokemon(matchedPokemons[0].name);
                         setLastSearchedQuery(searchQuery);
                     } else {
                         console.error("No Pokémon found");
+                    }
                 }
-            }
-        }
-        else {
+            } catch {
+                console.error("No Pokémon found");
+            }  
+        } else {
             console.error(':/ You searched for an empty name');
         }
     };
+
 
     // Instead of {pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)} i create
 
@@ -71,24 +75,28 @@ const Pokemon = () => {
     };
 
     // Fetching data to get the pokemon 
+    // Adding async while need to check order of execution of searchPokemon witch check the query and the allPokemon data
 
-    const fetchPokemon = (pokemonName) => {
+    const fetchPokemon = async (pokemonName) => {
 
         // Clean name from uppercase or accents o weird characters
         const pokemonNameCleaned = pokemonName.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         
-        fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonNameCleaned}`)
-        .then((pokemonData) => pokemonData.json())
-        .then((pokemonData) => {
+        console.log(pokemonNameCleaned);
+
+        try {
+            const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonNameCleaned}`);
+            const pokemonData = await response.json();
             getPokemon(pokemonData);
             console.log(pokemonData);
             setsearchFlag(true);
-        })
-        .catch((error) => {
+            return true; // Successful fetch for searchPkemon variable "pokemonFound"
+        } catch (error) {
             console.error('No pokemon found.');
             getPokemon(null);
             setsearchFlag(true); // Does need to be true! flag must reflect fact that search has been done even with no success
-        });
+            return false; // Unsuccessful fetch for searchPkemon variable "pokemonFound"
+        }
     };
 
     // Handle the variables in HTML where user can type, send and retrieve back the data
@@ -102,7 +110,7 @@ const Pokemon = () => {
             </div>
             {pokemon ? (
                 <Card className="card">
-                <div classNAme="card-content">
+                <div className="card-content">
                     <Card.Section className="top">
                         <Text className="pokemon-type-text"> <ul className="pokemon-types-list">
                             {pokemon.types.map((typeInfo, index) => (
