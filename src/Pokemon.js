@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Card, Image, Text, Title, Loader, Button, Center, Container, Grid, TextInput } from '@mantine/core';
 
 // Importing useState to get initial const data and to set a function to use to update the data from users
@@ -12,9 +12,29 @@ const Pokemon = () => {
     // lastSearchedQuery ==> to make query searched for handling "Not found error" without getting the error being refreshed with the search bar input
     const [lastSearchedQuery, setLastSearchedQuery] = useState(''); 
     const [searchFlag, setsearchFlag] = useState(false); // Flag to make pokemon not to be 'null' without being searched first
+    // allPokemon ==> To fetch all the pokemon data to get search of part of the "pokemon.name" to be confronted with all the API data, should be running by default
+    const [allPokemon, setAllPokemon] = useState([]);
+
+    // Let the console get all the Pokemons data in "background" with useEffect
+
+    const fetchAllPokemon = () => {
+        fetch(`https://pokeapi.co/api/v2/pokemon?limit=9999`) // Get pokemon id up to id=9999
+        .then((pokemonData) => pokemonData.json())
+        .then((pokemonData) => {
+            setAllPokemon(pokemonData);
+            console.log(pokemonData);
+        })
+        .catch((error) => {
+            console.error('No Pokemons found');
+          });
+    };
+
+    useEffect(() => {
+        fetchAllPokemon(); 
+    }, []);
 
     // Change the value of query with new input event
-    
+
     const ChangeQuery = (eventSearch) => {
         setQuery(eventSearch.target.value);
     };
@@ -24,7 +44,20 @@ const Pokemon = () => {
     const searchPokemon = () => {
         if (searchQuery !== '') {
             fetchPokemon(searchQuery);
-            setLastSearchedQuery(searchQuery);
+            const pokemonFound = fetchPokemon(searchQuery);
+            if (pokemonFound) {
+                setLastSearchedQuery(searchQuery);
+                } else if (allPokemon.filter(pokemon => pokemon.name.toLowerCase().includes(searchQuery))) {
+                    const matchedPokemon = allPokemon.filter(pokemon => 
+                        pokemon.name.toLowerCase().includes(searchQuery)
+                    ); 
+                    if (matchedPokemon) {
+                        fetchPokemon(matchedPokemon.name);
+                        setLastSearchedQuery(searchQuery);
+                    } else {
+                        console.error("No Pokémon found");
+                }
+            }
         }
         else {
             console.error(':/ You searched for an empty name');
@@ -109,7 +142,7 @@ const Pokemon = () => {
                 </div>
                 </Card>
             ) : searchFlag ? (
-                <Text>No Pokemon found with such name "{lastSearchedQuery}". Please search for a Pokemon.</Text>
+                <Text>No Pokémon found with such name "{lastSearchedQuery}". Please search for a Pokémon.</Text>
               ) : null} 
         </Container>
     );
