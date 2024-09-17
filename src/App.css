@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
 .App {
   text-align: center;
 }
@@ -24,28 +26,85 @@
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 600px;
+  background: linear-gradient(#F9BC61, #FDE8C9);
+  box-shadow: 0px 6px 6px -3px rgba(0, 0, 0, 0.2),
+              0px 10px 14px 1px rgba(0, 0, 0, 0.14),
+              0px 4px 18px 3px rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  padding: 15px;
+  margin: 20px;
+  color: black;
 }
 
-/* About to use already imported mantine CSS
-
-/* .pokemon-card {
-  position: absolute;
-  background-color: #282c34;
-  margin-top:20px;
-  display:grid;
-  width: 800px;
-  height: 450px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(95, 95, 95, 0.688);
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.1);
-  border-top: 1px solid rgba(255, 255, 255, 0.5);
+.card-content {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background-color: white;
+  border-radius: 8px;
+  padding: 15px;
 }
 
-.pokemon-card:hover {
-  width: 820px;
-  height: 470px;
-  box-shadow: 0 4px 8px rgba(255, 255, 255, 0.853);
-} */ 
+ul {
+  list-style-type: none;
+}
+
+.pokemon-types-list,
+.pokemon-stats-list,
+.pokemon-abilities-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+}
+
+.pokemon-type,
+.pokemon-stat,
+.pokemon-ability {
+  background-color: #FDE8C9;
+  padding: 5px 10px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 12px;
+}
+
+.pokemon-name {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.pokemon-image {
+  width: 400px;
+}
+
+.middle-bottom .stat-value {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 14px;
+  margin: 5px;
+}
+
+.pokemon-weight, 
+.pokemon-height {
+  margin-top: 10px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.bottom {
+  margin-top: 20px;
+  font-size: 14px;
+}
+
+

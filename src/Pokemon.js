@@ -60,6 +60,7 @@ const Pokemon = () => {
             </div>
             {pokemon ? (
                 <Card className="card">
+                <div classNAme="card-content">
                     <Card.Section className="top">
                         <Text>Type: <ul className="pokemon-types-list">
                             {pokemon.types.map((typeInfo, index) => (
@@ -79,7 +80,10 @@ const Pokemon = () => {
                     <Text>Stats: <ul className="pokemon-stats-list">
                             {pokemon.stats.map((statInfo, index) => (
                                 <li className="pokemon-stat" key={index}>
-                                    {statInfo.stat.name}: {statInfo.base_stat}
+                                    <div className="stat-value">
+                                        <Text>{statInfo.stat.name}</Text>
+                                        <Text>{statInfo.base_stat}</Text>
+                                    </div>
                                 </li>
                             ))}
                         </ul> </Text>
@@ -93,6 +97,7 @@ const Pokemon = () => {
                             ))}
                         </ul> </Text>
                     </Card.Section>
+                </div>
                 </Card>
             ) : (
                 <p>No Pokemon found. Please search for a Pokemon.</p>
