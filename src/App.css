@@ -37,7 +37,7 @@
 }
 
 .search-bar input:hover {
-  box-shadow: 0 1px 9px rgba(65, 65, 255, 0.813);
+  box-shadow: 0 1px 9px rgba(71, 101, 253, 0.813);
 }
 
 .search-bar input:focus {
@@ -46,18 +46,22 @@
 }
 
 .search-button {
-  background-color: rgba(249, 249, 249, 0.977);
+  background-color: rgba(255, 235, 79, 0.977);
+  color: rgba(71, 101, 253, 0.813);
   border: none;
   padding: 10px 20px;
   border-radius: 20px;
   margin: 10px;
   margin-top: 20px;
   font-size: 15px;
+  font-weight: bold;
   cursor: pointer;
 }
 
 .search-button:hover {
-  box-shadow: 0 0 3px rgba(65, 65, 255, 0.813);
+  background-color: rgba(71, 101, 253, 0.813);
+  color: rgba(255, 235, 79, 0.977);
+  box-shadow: 0 0.5px 5px rgba(255, 235, 79, 0.977);
   cursor: pointer;
 }
 
@@ -75,6 +79,10 @@
   padding: 15px;
   color: black;
   margin: 20px;
+}
+
+.card:hover {
+  box-shadow: 2px 2px 13px rgba(255, 255, 255, 0.813);
 }
 
 .card-content {

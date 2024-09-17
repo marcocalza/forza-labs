@@ -9,7 +9,7 @@ function App() {
       <header className="App-header">
         <img src={pokemonLogo} className="App-logo" alt="logo" />
         <p>
-          Starting Take Home project with React!
+          Find your Pokémon!
         </p>
         <MantineProvider  withGlobalStyles withNormalizeCSS>
           <Pokemon />

@@ -8,7 +8,9 @@ import { Card, Image, Text, Title, Loader, Button, Center, Container, Grid, Text
 
 const Pokemon = () => {
     const [pokemon, getPokemon] = useState(null);
-    const [searchQuery, setQuery] = useState(''); 
+    const [searchQuery, setQuery] = useState('');
+    // lastSearchedQuery ==> to make query searched for handling "Not found error" without getting the error being refreshed with the search bar input
+    const [lastSearchedQuery, setLastSearchedQuery] = useState(''); 
     const [searchFlag, setsearchFlag] = useState(false); // Flag to make pokemon not to be 'null' without being searched first
 
     // Change the value of query with new input event
@@ -22,10 +24,17 @@ const Pokemon = () => {
     const searchPokemon = () => {
         if (searchQuery !== '') {
             fetchPokemon(searchQuery);
+            setLastSearchedQuery(searchQuery);
         }
         else {
             console.error(':/ You searched for an empty name');
         }
+    };
+
+    // Instead of {pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)} i create
+
+    const capitalize = (text) => {
+        return text.charAt(0).toUpperCase() + text.slice(1);
     };
 
     // Fetching data to get the pokemon 
@@ -45,7 +54,7 @@ const Pokemon = () => {
         .catch((error) => {
             console.error('No pokemon found.');
             getPokemon(null);
-            setsearchFlag(false); // Does not need to be true 
+            setsearchFlag(true); // Does need to be true! flag must reflect fact that search has been done even with no success
         });
     };
 
@@ -55,7 +64,7 @@ const Pokemon = () => {
     return (
         <Container>
             <div className="pokemon-search">
-                <TextInput className="search-bar" value={searchQuery} onChange={ChangeQuery} placeholder="Search Pokemon name..."/>
+                <TextInput className="search-bar" value={searchQuery} onChange={ChangeQuery} placeholder="Search Pokémon name..."/>
                 <Button  className="search-button" onClick={() => searchPokemon()}>Search</Button>
             </div>
             {pokemon ? (
@@ -70,7 +79,7 @@ const Pokemon = () => {
                     </Card.Section>
                     <Card.Section className="middle-top">
                         <Card.Section className="middle-top-left">
-                            <Title className="pokemon-name"> {pokemon.name} </Title>
+                            <Title className="pokemon-name"> {capitalize(pokemon.name)} </Title>
                         </Card.Section>
                         <Card.Section className="middle-top-right">
                             <Image className="pokemon-image" src={pokemon.sprites.front_default} alt={pokemon.name} />
@@ -81,7 +90,7 @@ const Pokemon = () => {
                             {pokemon.stats.map((statInfo, index) => (
                                 <li className="pokemon-stat" key={index}>
                                     <div className="stat-value">
-                                        <Text>{statInfo.stat.name}</Text>
+                                        <Text>{capitalize(statInfo.stat.name)}</Text>
                                         <Text>{statInfo.base_stat}</Text>
                                     </div>
                                 </li>
@@ -93,15 +102,15 @@ const Pokemon = () => {
                     <Card.Section className="bottom">
                         <Text className="abilities-text">Abilities: <ul className="pokemon-abilities-list">
                             {pokemon.abilities.map((abilityInfo, index) => (
-                                <li className="pokemon-ability" key={index}>{abilityInfo.ability.name}</li>
+                                <li className="pokemon-ability" key={index}>{capitalize(abilityInfo.ability.name)}</li>
                             ))}
                         </ul> </Text>
                     </Card.Section>
                 </div>
                 </Card>
-            ) : (
-                <p>No Pokemon found. Please search for a Pokemon.</p>
-            )}
+            ) : searchFlag ? (
+                <Text>No Pokemon found with such name "{lastSearchedQuery}". Please search for a Pokemon.</Text>
+              ) : null} 
         </Container>
     );
 };
