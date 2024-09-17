@@ -55,14 +55,14 @@ const Pokemon = () => {
     return (
         <Container>
             <div className="pokemon-search">
-                <TextInput value={searchQuery} onChange={ChangeQuery} placeholder="Search Pokemon name..."/>
-                <Button  onClick={() => searchPokemon()}>Search</Button>
+                <TextInput className="search-bar" value={searchQuery} onChange={ChangeQuery} placeholder="Search Pokemon name..."/>
+                <Button  className="search-button" onClick={() => searchPokemon()}>Search</Button>
             </div>
             {pokemon ? (
                 <Card className="card">
                 <div classNAme="card-content">
                     <Card.Section className="top">
-                        <Text>Type: <ul className="pokemon-types-list">
+                        <Text className="pokemon-type-text"> <ul className="pokemon-types-list">
                             {pokemon.types.map((typeInfo, index) => (
                                 <li className="pokemon-type" key={index}>{typeInfo.type.name}</li>
                             ))}
@@ -77,7 +77,7 @@ const Pokemon = () => {
                         </Card.Section>
                     </Card.Section>
                     <Card.Section className="middle-bottom">
-                    <Text>Stats: <ul className="pokemon-stats-list">
+                    <Text className="stats-text"> <ul className="pokemon-stats-list">
                             {pokemon.stats.map((statInfo, index) => (
                                 <li className="pokemon-stat" key={index}>
                                     <div className="stat-value">
@@ -91,7 +91,7 @@ const Pokemon = () => {
                         <Text className="pokemon-height"> Height: {pokemon.height} </Text>
                     </Card.Section>
                     <Card.Section className="bottom">
-                        <Text>Abilities: <ul className="pokemon-abilities-list">
+                        <Text className="abilities-text">Abilities: <ul className="pokemon-abilities-list">
                             {pokemon.abilities.map((abilityInfo, index) => (
                                 <li className="pokemon-ability" key={index}>{abilityInfo.ability.name}</li>
                             ))}
