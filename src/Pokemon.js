@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Card, Image, Text, Title, Button, Container, TextInput } from '@mantine/core';
 
 // Importing useState to get initial const data and to set a function to use to update the data from users
-// Looking to use axios for fetch requests, error handling " import axios from 'axios'; "
 
 // Creating 'object' Pokemon to pass for rendering
 
@@ -18,7 +17,7 @@ const Pokemon = () => {
     const [loader, setLoader] = useState(false);
 
     // Let the console get all the Pokemons data in "background" with useEffect
-    // Needs to be set as async to to be working in the order
+    // Needs to be set as async to to be working in the order in searchPokemon 
 
     const fetchAllPokemon = async () => {
         try {
@@ -95,12 +94,12 @@ const Pokemon = () => {
             getPokemon(pokemonData);
             console.log(pokemonData);
             setsearchFlag(true);
-            return true; // Successful fetch for searchPkemon variable "pokemonFound"
+            return true; // Successful fetch for searchPokemon variable "pokemonFound"
         } catch (error) {
             console.error('No "exact name" pokemon found.');
             getPokemon(null);
             setsearchFlag(true); // Does need to be true! flag must reflect fact that search has been done even with no success
-            return false; // Unsuccessful fetch for searchPkemon variable "pokemonFound"
+            return false; // Unsuccessful fetch for searchPokemon variable "pokemonFound"
         }
     };
 
@@ -147,8 +146,10 @@ const Pokemon = () => {
                                 </li>
                             ))}
                         </ul> </Text>
-                        <Text className="pokemon-weight"> Weight: {pokemon.weight} </Text>
-                        <Text className="pokemon-height"> Height: {pokemon.height} </Text>
+                        <div className="physical-stats">
+                            <Text className="pokemon-weight"> <strong>Weight:</strong> {pokemon.weight / 10} kg</Text>
+                            <Text className="pokemon-height"> <strong>Height:</strong> {pokemon.height / 10} m</Text>
+                        </div>
                     </Card.Section>
                     <Card.Section className="bottom">
                         <Text className="abilities-text">Abilities: <ul className="pokemon-abilities-list">

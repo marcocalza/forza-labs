@@ -238,6 +238,14 @@ ul {
   font-size: 14px;
 }
 
+.physical-stats{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
 .pokemon-weight, .pokemon-height {
   font-size: 14px;
   margin-top: 10px;
@@ -259,7 +267,7 @@ ul {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 10px;
+  justify-content: space-around;
 }
 
 .pokemon-ability {
@@ -267,4 +275,22 @@ ul {
   padding: 5px;
   border-radius: 4px;
   font-size: 12px;
+}
+
+.credits {
+  position: fixed;
+  font-size: 15px;
+  bottom: 20px;
+  right: 20px;
+  color: rgba(255, 255, 255, 0.567);
+}
+
+.github-repository-link{
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.567);
+  font-weight: bold;
+}
+
+.github-repository-link:hover {
+  color: rgba(255, 235, 79, 0.977);
 }

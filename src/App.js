@@ -14,6 +14,7 @@ function App() {
         <MantineProvider  withGlobalStyles withNormalizeCSS>
           <Pokemon />
         </MantineProvider>
+        <p className="credits">Take-Home project for Forza Labs by <a className='github-repository-link' title="Watch GitHub repository" href="https://github.com/marcocalza/forza-labs">Marco Calza</a></p>
       </header>
     </div>
   );
