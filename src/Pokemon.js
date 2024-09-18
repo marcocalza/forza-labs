@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Card, Image, Text, Title, Loader, Button, Center, Container, Grid, TextInput } from '@mantine/core';
+import { Card, Image, Text, Title, Button, Container, TextInput } from '@mantine/core';
 
 // Importing useState to get initial const data and to set a function to use to update the data from users
 // Looking to use axios for fetch requests, error handling " import axios from 'axios'; "
@@ -111,14 +111,13 @@ const Pokemon = () => {
         <Container>
             <div className="pokemon-search">
                 <TextInput className="search-bar" value={searchQuery} onChange={ChangeQuery} placeholder="Search Pokémon name..."/>
-                <Button  className="search-button" onClick={() => searchPokemon()}>Search</Button>
-            
-            {loader &&
-                <div className="loader-div">
-                    <Loader className="loader" variant="oval"/>
+                <Button  className="search-button" onClick={() => searchPokemon()}>Search</Button>         
+            </div>
+            {loader && 
+                <div className="loader-container">
+                    <div className="loader"></div>
                 </div>
             }
-            </div>
             {pokemon ? (
                 <Card className="card">
                 <div className="card-content">

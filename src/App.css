@@ -65,7 +65,8 @@
   cursor: pointer;
 }
 
-.loader-div{
+/* LOADER CSS CLASS NAMES PROBABLY CAUSING REACT TO NOT RENDER LOADER PROPERLY 
+.box-loader{
   display: flex;
   justify-content: center;
   align-items: center;
@@ -74,12 +75,41 @@
   width: 100%;
   top: 50%;
   left: 50%;
+  z-index: 1000;
   background-color: rgb(255, 255, 255);
+}*/
+
+/* Creating new loader with CSS */
+
+.loader-container {
+  position: relative; 
+  left: 50%;
+  transform: translate(-50%, 20px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px;
+  height: 80px;
+  margin-bottom: 30px;
 }
 
-.loader{
-  margin: auto;
+.loader {
+  border: .2em solid currentcolor;
+	border-bottom-color: transparent;
+	border-radius: 50%;
+	animation: 1s loader linear infinite;
   color: rgba(255, 235, 79, 0.977);
+  width: 50px;
+  height: 50px;
+}
+
+@keyframes loader {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .card {
