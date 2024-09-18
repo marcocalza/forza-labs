@@ -21,9 +21,6 @@ const Pokemon = () => {
     // Needs to be set as async to to be working in the order
 
     const fetchAllPokemon = async () => {
-
-        setLoader(true);
-
         try {
             const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=9999'); // Get pokemon id up to id=9999
             const pokemonData = await response.json();
@@ -31,8 +28,6 @@ const Pokemon = () => {
             console.log(pokemonData);
         } catch (error) {
             console.error('No Pokemons found');
-        } finally {
-            setLoader(false);
         }
     };
 
@@ -51,7 +46,11 @@ const Pokemon = () => {
 
     const searchPokemon = async () => {
         if (searchQuery !== '') {
+            setLoader(true);
             try {
+
+                await new Promise(resolve => setTimeout(resolve, 10)); // Stops code for 10ms to show loader
+
                 const pokemonFound = await fetchPokemon(searchQuery.toLowerCase());
                 if (pokemonFound) {
                     setLastSearchedQuery(searchQuery);
@@ -66,12 +65,12 @@ const Pokemon = () => {
                         console.error("No Pokémon found");
                         setLastSearchedQuery(searchQuery);
                     }
-                }
+                } 
             } catch {
                 console.error("No Pokémon found");
-            }  
-        } else {
-            console.error(':/ You searched for an empty name');
+            } finally {
+                setLoader(false);
+            }
         }
     };
 
@@ -89,8 +88,6 @@ const Pokemon = () => {
 
         // Clean name from uppercase or accents o weird characters
         const pokemonNameCleaned = pokemonName.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-        
-        setLoader(true);
 
         try {
             const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonNameCleaned}`);
@@ -100,12 +97,10 @@ const Pokemon = () => {
             setsearchFlag(true);
             return true; // Successful fetch for searchPkemon variable "pokemonFound"
         } catch (error) {
-            console.error('No pokemon found.');
+            console.error('No "exact name" pokemon found.');
             getPokemon(null);
             setsearchFlag(true); // Does need to be true! flag must reflect fact that search has been done even with no success
             return false; // Unsuccessful fetch for searchPkemon variable "pokemonFound"
-        } finally {
-            setLoader(false);
         }
     };
 
@@ -117,8 +112,13 @@ const Pokemon = () => {
             <div className="pokemon-search">
                 <TextInput className="search-bar" value={searchQuery} onChange={ChangeQuery} placeholder="Search Pokémon name..."/>
                 <Button  className="search-button" onClick={() => searchPokemon()}>Search</Button>
+            
+            {loader &&
+                <div className="loader-div">
+                    <Loader className="loader" variant="oval"/>
+                </div>
+            }
             </div>
-            {loader && <Loader className="loader" variant="oval"/>}
             {pokemon ? (
                 <Card className="card">
                 <div className="card-content">

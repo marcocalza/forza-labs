@@ -65,10 +65,20 @@
   cursor: pointer;
 }
 
-.loader{
+.loader-div{
   display: flex;
   justify-content: center;
+  align-items: center;
+  position: absolute;
   margin: 20px;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  background-color: rgb(255, 255, 255);
+}
+
+.loader{
+  margin: auto;
   color: rgba(255, 235, 79, 0.977);
 }
 
