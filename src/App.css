@@ -65,6 +65,13 @@
   cursor: pointer;
 }
 
+.loader{
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+  color: rgba(255, 235, 79, 0.977);
+}
+
 .card {
   display: flex;
   justify-content: center;

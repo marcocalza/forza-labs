@@ -14,11 +14,16 @@ const Pokemon = () => {
     const [searchFlag, setsearchFlag] = useState(false); // Flag to make pokemon not to be 'null' without being searched first
     // allPokemon ==> To fetch all the pokemon data to get search of part of the "pokemon.name" to be confronted with all the API data, should be running by default
     const [allPokemon, setAllPokemon] = useState([]);
+    // Adding Loader since now code runs slower
+    const [loader, setLoader] = useState(false);
 
     // Let the console get all the Pokemons data in "background" with useEffect
     // Needs to be set as async to to be working in the order
 
     const fetchAllPokemon = async () => {
+
+        setLoader(true);
+
         try {
             const response = await fetch('https://pokeapi.co/api/v2/pokemon?limit=9999'); // Get pokemon id up to id=9999
             const pokemonData = await response.json();
@@ -26,6 +31,8 @@ const Pokemon = () => {
             console.log(pokemonData);
         } catch (error) {
             console.error('No Pokemons found');
+        } finally {
+            setLoader(false);
         }
     };
 
@@ -57,6 +64,7 @@ const Pokemon = () => {
                         setLastSearchedQuery(searchQuery);
                     } else {
                         console.error("No Pokémon found");
+                        setLastSearchedQuery(searchQuery);
                     }
                 }
             } catch {
@@ -82,7 +90,7 @@ const Pokemon = () => {
         // Clean name from uppercase or accents o weird characters
         const pokemonNameCleaned = pokemonName.trim().toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         
-        console.log(pokemonNameCleaned);
+        setLoader(true);
 
         try {
             const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonNameCleaned}`);
@@ -96,6 +104,8 @@ const Pokemon = () => {
             getPokemon(null);
             setsearchFlag(true); // Does need to be true! flag must reflect fact that search has been done even with no success
             return false; // Unsuccessful fetch for searchPkemon variable "pokemonFound"
+        } finally {
+            setLoader(false);
         }
     };
 
@@ -108,6 +118,7 @@ const Pokemon = () => {
                 <TextInput className="search-bar" value={searchQuery} onChange={ChangeQuery} placeholder="Search Pokémon name..."/>
                 <Button  className="search-button" onClick={() => searchPokemon()}>Search</Button>
             </div>
+            {loader && <Loader className="loader" variant="oval"/>}
             {pokemon ? (
                 <Card className="card">
                 <div className="card-content">
